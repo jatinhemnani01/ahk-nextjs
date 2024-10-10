@@ -1,10 +1,9 @@
+import { Button } from "@/components/ui/button";
 
-
-export default function Index(){
+export default function Index() {
   return (
     <div className="flex justify-center items-center">
-      <h1 className="text-4xl">Hello</h1>
-
+      <Button variant={"link"}>Hello</Button>
     </div>
-  )
+  );
 }
