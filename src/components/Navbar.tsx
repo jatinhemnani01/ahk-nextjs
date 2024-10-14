@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
 
 const SearchInput = () => (
   <div className="relative w-full">
@@ -20,6 +21,7 @@ const SearchInput = () => (
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const session = useSession();
 
   return (
     <nav className="bg-background shadow-sm">
@@ -27,7 +29,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo/Title */}
           <div className="flex-shrink-0">
-            <span className="text-2xl font-bold text-primary">Logo</span>
+            <span className="text-2xl font-bold text-primary">AH Karaoke</span>
           </div>
 
           {/* Centered Search Bar (hidden on mobile) */}
@@ -41,19 +43,26 @@ export default function Navbar() {
           <div className="hidden md:block">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
+                {/* <Button
                   variant="ghost"
                   className="relative w-8 h-8 rounded-full"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
+                > */}
+                {/* <User className="h-5 w-5" /> */}
+                <img
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  src={session?.data?.user?.image || ""}
+                  alt="Rounded avatar"
+                />
+                {/* </Button> */}
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>
+                  Sign out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -81,14 +90,18 @@ export default function Navbar() {
           <div className="pt-4 pb-3 border-t border-gray-200">
             <div className="flex items-center px-5">
               <div className="flex-shrink-0">
-                <User className="h-10 w-10 rounded-full" />
+                <img
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  src={session?.data?.user?.image || ""}
+                  alt="Rounded avatar"
+                />
               </div>
               <div className="ml-3">
                 <div className="text-base font-medium text-primary">
-                  User Name
+                  {session?.data?.user?.name || ""}
                 </div>
                 <div className="text-sm font-medium text-muted-foreground">
-                  user@example.com
+                  {session?.data?.user?.email || ""}
                 </div>
               </div>
             </div>
