@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const SearchInput = () => (
   <div className="relative w-full">
@@ -41,30 +41,35 @@ export default function Navbar() {
 
           {/* Profile Dropdown (hidden on mobile) */}
           <div className="hidden md:block">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                {/* <Button
-                  variant="ghost"
-                  className="relative w-8 h-8 rounded-full"
-                > */}
-                {/* <User className="h-5 w-5" /> */}
-                <img
-                  className="w-10 h-10 rounded-full cursor-pointer"
-                  src={session?.data?.user?.image || ""}
-                  alt="Rounded avatar"
-                />
-                {/* </Button> */}
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut()}>
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {session?.data?.user?.image ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <img
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                    src={session?.data?.user?.image || ""}
+                    alt="Rounded avatar"
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer">
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => signOut()}
+                  >
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button onClick={() => signIn("google")}>Login/Sing Up</Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
