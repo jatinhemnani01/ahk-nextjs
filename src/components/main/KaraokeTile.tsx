@@ -1,5 +1,5 @@
 import { Music, DollarSign, IndianRupee } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface Props {
   songName: string;

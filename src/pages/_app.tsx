@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/main/Navbar";
 import { SessionProvider } from "next-auth/react";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
