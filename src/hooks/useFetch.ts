@@ -17,8 +17,8 @@ const useFetch = <T extends any[]>(url: string): UseFetchResult<T> => {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error("Network response was not ok");
           setError(true);
+          throw new Error("Network response was not ok");
         }
         const result: T = await response.json();
 

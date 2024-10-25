@@ -1,3 +1,4 @@
+import BASE_URL from "@/constants/BASE_URL";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
@@ -17,12 +18,24 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ account, profile }) {
-      if (!profile?.email) {
-        throw new Error("No Profile");
-      }
+      console.log(profile?.email, profile?.name);
+
+      const data = { name: profile?.name, email: profile?.email };
+
+      await fetch(`${BASE_URL}/users/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+
       return true;
     },
   },
 };
 
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);
